@@ -11,6 +11,7 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/login.css">
+	<script src="https://kit.fontawesome.com/ca259622f8.js" crossorigin="anonymous"></script>
 	<script src="assets/script/login.js"></script>
 </head>
 
@@ -31,8 +32,10 @@
 		<form id="login__form">
 			<p>E-mail</p>
 			<input type="text" name="email" id="email__input">
-			<p>Mot de passe</p>
-			<input type="text" name="password" id="password__input">
+			<label for="password__input">Mot de passe</label>
+			<div class="password-container">
+			  <input type="password" id="password__input" name="password" required>
+			</div>
 			<div class="button__form">
 				<button id="button__connection">Se connecter</button>
 				<p><a href="#">Mot de passe oublier</a></p>

@@ -228,6 +228,7 @@ async function deleteWork(id) {
 
     if (response.ok) {
         console.log("delete reussi");
+        await displayWorks();
 
 
         const workElement = document.getElementById(id);
@@ -306,7 +307,6 @@ async function modalInputCategorys() {
         option.value = categorie.id
         option.textContent = categorie.name
         inputSelect.appendChild(option)
-        inputSelect.value = "";
     });
 }
 
@@ -379,6 +379,7 @@ form.addEventListener("submit", async (e) => {
             const result = await response.json();
             alert("Projet ajouté avec succès !");
             form.reset(); // Réinitialise le formulaire après un ajout réussi
+            await displayWorks();
         }
     } catch (error) {
         console.error("Erreur de requête :", error);
