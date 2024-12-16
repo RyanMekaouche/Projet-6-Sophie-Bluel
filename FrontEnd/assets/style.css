@@ -152,6 +152,10 @@ header ul {
 	gap: 15px
 }
 
+header ul img {
+	width: 20px;
+}
+
 section {
 	margin: 50px 0
 }
@@ -188,6 +192,11 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+}
+
+#login__link {
+    text-decoration: none;
+    color: black;
 }
 
 li:hover {
@@ -235,7 +244,9 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-    height: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
 }
 
 #contact {
@@ -302,14 +313,18 @@ footer nav ul {
 	margin: 2em
 }
 
-.portfolio-categories {
+.portfolio__categories {
 	display: flex;
 	justify-content: center;
 	gap: 5px;
 	margin: 40px 0px;
 }
 
-/*button*/
+.hidden {
+	visibility: hidden;
+}
+
+/*button category*/
 
 button.design {
 	font-family: 'Syne';
@@ -329,7 +344,7 @@ button.active {
 	color: #FFFEF8;
 }
 
-.category-button {
+.button__category {
 	background: white;
 	border-radius: 60px;
 	height: 35px;
@@ -340,77 +355,6 @@ button.active {
 	border-width: 1px;
 }
 
-/* Login page properties */
-
-.nav__login a {
-	text-decoration: none;
-	color: black;
-}
-
-#btn-log-login-page {
-	font-weight: bold;
-}
-
-#login__link {
-	text-decoration: none;
-	color: black;
-}
-
-#login-main {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 700px;
-}
-
-#login-main h2 {
-	margin: 50px 0 50px 0;
-}
-
-#login-form {
-	width: 350px;
-	display: flex;
-	flex-direction: column;
-}
-
-#login-form p {
-	margin-bottom: 5px;
-}
-
-#login-form input {
-	width: 100%;
-	height: 40px;
-	border: none;
-	box-shadow: 5px 5px 5px rgb(235, 235, 235);
-	margin-bottom: 20px;
-}
-
-#btn__connection {
-	background-color: #1D6154;
-	color: white;
-	padding: 10px 15px 10px 15px;
-	border: none;
-	border-radius: 20px;
-	width: 170px;
-	margin: 10px 0 20px 0;
-}
-
-
-.button__form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.login__background {
-	background-color: #FFFEF8;
-}
-
-.error {
-	box-shadow: 5px 5px 5px rgb(235, 235, 235);
-	border: block;
-	border-color: red;
-}
 
 /* Mode edition */
 
@@ -428,25 +372,8 @@ button.active {
 	margin-bottom: 20px;
 }
 
-#button__modif {
-	background-color: white;
-	border: none;
-	margin-top: 5px;
-	gap: 10px;
-}
-
-#button__modif svg {
-	width: 15px;
-	margin-right: 5px;
-	margin-left: 10px;
-}
-
 #edit {
 	width: 10px;
-}
-
-.hidden {
-	visibility: hidden;
 }
 
 .portfolio__edit {
@@ -455,62 +382,114 @@ button.active {
 	margin: 30px 0px 30px 0px;
 }
 
-.portfolio__edit-flex {
+.portfolio__edit--flex {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin: 90px 0px;
 }
 
-/* Mode edition modale*/
 
-#modal__contain a {
-	text-decoration: none;
-	color: black;
-	margin-left: 10px;
+/* Première modal*/
+
+
+.button__modifed {
+	border: none;
+	background: white;
+	margin-left: 15px;
 }
 
 .modal {
+	display: none;
 	position: fixed;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	top: 0;
+	bottom: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-wrapper {
-	overflow: auto;
-	width: 600px;
-	max-width: calc(100vw - 20px);
-	max-height: calc(100vh - 20px);
-	padding: 20px;
-	background-color: #FFFEF8;
+.modal h2 {
+	margin: 20px 0px;
 	color: black;
-	cursor: auto;
+	font-size: 25px;
+	padding-bottom: 10px;
 }
 
-.modal-wrapper h3 {
-	margin: 40px 0px;
-	text-align: center;
-	font-size: 26px;
+.modal.active {
+	display: block;
 }
 
-/* Mode edition modale image*/
+.modal__content {
+	background-color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 20px;
+}
 
-.gallery-modal {
+.modal__content .line {
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+
+.line {
+	margin-top: 20px;
 	width: 100%;
+	border: 1px solid #B3B3B3;
+}
+
+.modal__photos {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 10px;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 5px;
 }
 
-.gallery-modal img {
-	width: 100%;
+.modal__photos--img {
+	max-width: 100%;
+	width: 90px;
+	height: 100px;
+	display: block;
+	object-fit: cover;
+}
+
+.button__addphoto {
+	padding: 10px 20px;
+	border: 1px solid #1D6154;
+	background-color: #1D6154;
+	margin-top: 40px;
+	color: white;
+	cursor: pointer;
+	border-radius: 25px;
+	width: 200px;
+}
+
+
+#modal__close {
+	font-size: medium;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: none;
+	background-color: white;
+	cursor: pointer;
+}
+
+#modal__close .fa-solid{
+	font-size: 20px;
+}
+
+
+/* suppression des travaux */
+
+.button__trash {
+	position: relative;
+	bottom: 90px;
+	left: 50px;
+	border: none;
+	background: transparent;
+	height: 20px;
 }
 
 .fa-trash-alt:before,
@@ -525,111 +504,14 @@ button.active {
 	padding: 4px;
 }
 
-.button__addphoto {
-	padding: 10px 20px;
-	border: 1px solid #1D6154;
-	background-color: #1D6154;
-	margin-top: 40px;
-	color: white;
-	cursor: pointer;
-	border-radius: 25px;
-	width: 200px;
-}
-
-.portfolio__modified {
-	border: none;
-	background: white;
-	margin-left: 15px;
-}
-
-.js-modal {
-	display: none;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
-.js-modal h2 {
-	margin: 20px 0px;
-	color: black;
-	font-size: 25px;
-}
-
-.js-modal.active {
-	display: block;
-}
-
-.js-modal-content {
-	background-color: white;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	padding: 20px;
-}
-
-.js-modal-photos {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 5px;
-}
-
-.js-modal-photos-img {
-	max-width: 100%;
-	width: 90px;
-	height: 100px;
-	display: block;
-	object-fit: cover;
-}
-
-#js-modal-close {
-	font-size: medium;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	border: none;
-	background-color: white;
-	cursor: pointer;
-}
-
-.button-trash {
-	position: relative;
-	bottom: 90px;
-	left: 50px;
-	border: none;
-	background: transparent;
-	height: 20px;
-}
-
-.button-close {
-	background-color: #1D6154;
-}
-
-.js-modaladd-button {
-	padding: 5px 10px;
-	background-color: #1D6154;
-	color: white;
-	border-radius: 10px;
-	width: 200px;
-	border: none;
-}
-
-.block {
-	display: block;
-}
-
-.jsmodal__div-button{
+.modal__div--button {
 	display: flex;
 	justify-content: center;
 }
 
 /* Style de la deuxième modale */
 
-.js-modal-add {
-	display: none;
+.modalTwo {
 	background-color: white;
 	position: relative;
 	justify-content: space-around;
@@ -638,13 +520,29 @@ button.active {
 	gap: 10px;
 	top: 50%;
 	left: 50%;
-	height: 40%;
-	width: 20%;
+	height: 60%;
+	width: 25%;
 	transform: translate(-50%, -50%);
 	padding: 20px;
 }
 
-.js-modal-add .fa-arrow-left {
+.modalTwo label {
+	color: #444444;
+}
+
+.modalTwo input {
+	padding: 8px;
+	border: none;
+	box-shadow: 0px 5px 7px rgb(199, 199, 199);
+}
+
+.modalTwo select {
+	padding: 8px;
+	border: none;
+	box-shadow: 0px 5px 7px rgb(199, 199, 199);
+}
+
+.modalTwo .fa-arrow-left {
 	position: absolute;
 	top: 10px;
 	left: 10px;
@@ -652,7 +550,7 @@ button.active {
 	cursor: pointer;
 }
 
-.js-modal-add .fa-xmark {
+.modalTwo .fa-xmark {
 	position: absolute;
 	top: 10px;
 	right: 10px;
@@ -660,21 +558,21 @@ button.active {
 	cursor: pointer;
 }
 
-.js-modal-add .fa-image {
+.modalTwo .fa-image {
 	font-size: 3em;
 }
 
-.js-modal-add button {
+.modalTwo button {
 	padding: 10px 15px;
 	margin: 20px;
-	background-color: #1D6154;
+	background-color: grey;
 	color: white;
 	border-radius: 15px;
 	border: none;
 	width: 200px;
 }
 
-.js-modal-add form {
+.modalTwo form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -684,28 +582,59 @@ button.active {
 	;
 }
 
+.modalTwo__button {
+	padding: 10px 15px;
+	background-color: #1D6154;
+	color: white;
+	border-radius: 20px;
+	width: 200px;
+	border: none;
+}
+
+
+
+/* formulaire de la deuxième modal */
+
 .container__file {
-	background-color: gray;
-	height: 45%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	border-radius: 5px;
+	background: #E8F1F6;
+	margin-bottom: 15px;
+}
+
+.container__file .fa-solid {
+	color: #B9C5CC;
+	font-size: 4em;
+	padding-top: 10px;
 }
 
 .container__file label {
-	background-color: black;
+	background-color: #CBD6DC;
 	color: white;
 	border-radius: 15px;
-	padding: 5px 10px;
+	padding: 10px 10px;
+	margin: 10px;
+	width: 150px;
+	text-align: center;
+	color: #306685;
+	font-weight: 500;
 }
 
 .container__file img {
 	display: none;
-	max-width: 100%;
+	max-width: 50%;
 	height: 100%;
 }
+
+.container__file p {
+	color: #444444;
+	font-size: 12px;
+	padding-bottom: 20px;
+}
+
 
 #file {
 	display: none;

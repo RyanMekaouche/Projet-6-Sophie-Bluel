@@ -6,8 +6,8 @@ async function handleSubmit(event) {
   event.preventDefault();
 
   let user = {
-    email: document.getElementById("email-input").value,
-    password: document.getElementById("password-input").value,
+    email: document.getElementById("email__input").value,
+    password: document.getElementById("password__input").value,
   };
 
   let response = await fetch(loginApi, {
@@ -26,9 +26,10 @@ async function handleSubmit(event) {
     window.location.replace("./index.html");
   }
 };
-window.onload = function(){
- document.getElementById("login-form").addEventListener("submit", handleSubmit);
- if (sessionStorage.authToken){
-  window.location.replace("./index.html");
- }
+
+window.onload = function () {
+  document.getElementById("login__form").addEventListener("submit", handleSubmit);
+  if (sessionStorage.authToken) {
+    window.location.replace("./index.html");
+  }
 }

@@ -1,3 +1,6 @@
+
+//recupération des travaux
+
 const gallery = document.querySelector(".gallery")
 
 async function getWorks() {
@@ -6,7 +9,7 @@ async function getWorks() {
     return works;
 }
 
-getWorks();
+// Project
 
 async function displayWorks(category) {
     gallery.innerHTML = ""
@@ -38,7 +41,7 @@ async function getCategories() {
 function createCategoryButton(category) {
     const btn = document.createElement("button")
     btn.textContent = category ? category.name : "Tous";
-    btn.className = `category-button ${!category ? "active" : ""}`;
+    btn.className = `button__category ${!category ? "active" : ""}`;
     btn.addEventListener("click", (event) => {
         event.preventDefault();
         handleFilterCategory(category)
@@ -49,7 +52,7 @@ function createCategoryButton(category) {
 
 async function displayCategoriesButton() {
     const categories = await getCategories();
-    const portfolioCategories = document.querySelector(".portfolio-categories")
+    const portfolioCategories = document.querySelector(".portfolio__categories")
 
     const btnAll = createCategoryButton()
     if (portfolioCategories) portfolioCategories.appendChild(btnAll)
@@ -61,39 +64,44 @@ async function displayCategoriesButton() {
     }
 }
 
-//filtrer au click sur le bouton par catégorie//
+//filtrer au click sur le bouton par catégorie et enleve la class active sur les boutton précedent//
 
 async function handleFilterCategory(category) {
-    const active = document.querySelector(".category-button.active")
-
+    const active = document.querySelector(".button__category.active")
     active.classList.remove("active")
-
 
 
     const categories = await getCategories();
     const selectedCategory = categories.find(item => item.id === (category && category.id))
-    console.log(selectedCategory)
     displayWorks(selectedCategory)
 }
+
+
 
 //Mode edition//
 
 function displayEditorMode() {
     if (sessionStorage.authToken) {
+        const headerEditorMod = document.querySelector("header")
+        headerEditorMod.style.marginTop = "70px";
         const editorMod = document.querySelector(".mode__edition.hidden")
         editorMod.classList.remove("hidden")
         const portfolioEdit = document.querySelector(".portfolio__edit")
-        portfolioEdit.classList.add("portfolio__edit-flex")
-        const portfolioCategory = document.querySelector(".portfolio-categories")
+        portfolioEdit.classList.add("portfolio__edit--flex")
+        const portfolioCategory = document.querySelector(".portfolio__categories")
         portfolioCategory.remove()
+
     } else {
-        const modifiedButton = document.querySelector('.portfolio__modified')
+        const modifiedButton = document.querySelector('.button__modifed')
         modifiedButton.classList.add("hidden")
         const portfolioProject = document.querySelector('.flex-center')
         portfolioProject.classList.remove('flex-center')
     }
 }
+
 displayEditorMode()
+
+// fonction qui gère la deconnexion 
 
 window.onload = function () {
     if (sessionStorage.authToken) {
@@ -108,6 +116,8 @@ window.onload = function () {
     }
 }
 
+
+
 //Modal//
 
 let modal = null
@@ -118,10 +128,10 @@ if (sessionStorage.authToken) {
     const openModal = async function (e) {
         e.preventDefault()
 
-        const modal = document.querySelector(".js-modal")
+        const modal = document.querySelector(".modal")
         modal.classList.add('active');
 
-        const modalPhotos = document.querySelector('.js-modal-photos');
+        const modalPhotos = document.querySelector('.modal__photos');
         const works = await getWorks();
         modalPhotos.innerHTML = ""
 
@@ -130,14 +140,14 @@ if (sessionStorage.authToken) {
             const img = document.createElement('img');
             const button = document.createElement('button')
             const buttonIcon = document.createElement('i')
-            button.className = "button-trash"
+            button.className = "button__trash"
             workContain.className = "js-modal-photo-work"
             buttonIcon.classList.add('fa-solid', 'fa-trash-can')
             button.classList.add('jsclose')
             img.src = work.imageUrl;
             img.alt = work.title;
             button.id = work.id;
-            img.className = "js-modal-photos-img"
+            img.className = "modal__photos--img"
             workContain.appendChild(img)
             button.appendChild(buttonIcon)
             workContain.appendChild(button)
@@ -145,49 +155,64 @@ if (sessionStorage.authToken) {
 
         });
 
-        const allBtnTrash = document.querySelectorAll(".button-trash");
+
+        modalAdd.style.display = "none"
+        modalFirst.style.display = "block"
+
+
+        const allBtnTrash = document.querySelectorAll(".button__trash");
         allBtnTrash.forEach(button => {
             button.addEventListener("click", () => {
                 deleteWork(button.id);
             });
         });
 
-        const modalContent = document.querySelector(".js-modal-content")
-        modalContent.appendChild(modalPhotos);
     }
 
 
     if (sessionStorage.authToken) {
-
     }
+
     const closeModal = function (e) {
         e.preventDefault()
-        const modal = document.querySelector(".js-modal")
+        const modal = document.querySelector(".modal")
         modal.classList.remove('active');
+
+        inputSelect = document.querySelector('.modalTwo select')
+        inputSelect.value = "";
+
+        const title = document.querySelector(".modalTwo #title")
+        title.value = "";
+
+        filePicture.style.display = "none";
+        fileLabel.style.display = "block";
+        fileIcon.style.display = "block";
+        fileP.style.display = "block";
     };
+
+
 
     const stopPropagation = function (e) {
         e.stopPropagation()
     }
 
 
-    const buttonModified = document.querySelector(".portfolio__modified")
-    buttonModified.addEventListener("click", openModal)
+    const buttonModified = document.querySelector(".button__modifed").addEventListener("click", openModal)
 
-    const buttonClose = document.getElementById("js-modal-close")
-    buttonClose.addEventListener("click", closeModal)
+    const buttonClose = document.getElementById("modal__close").addEventListener("click", closeModal)
 
-    const modalAddCross = document.querySelector('.js-modal-add .fa-xmark')
-    modalAddCross.addEventListener("click", closeModal)
+    const modalAddCross = document.querySelector('.modalTwo .fa-xmark').addEventListener("click", closeModal)
 
 }
-
 
 
 displayWorks();
 displayCategoriesButton();
 
-//fonction pour suprimmez un work lors du click sur une poubelle//
+
+
+
+//fonction pour suprimmez un traville lors du click sur une poubelle
 
 async function deleteWork(id) {
     const deleteApi = "http://localhost:5678/api/works/";
@@ -218,11 +243,12 @@ async function deleteWork(id) {
     }
 }
 
+
 //Boutton pour la deuxième modal//
 
-const buttonAdd = document.querySelector('.js-modaladd-button')
-const modalAdd = document.querySelector('.js-modal-add')
-const modalFirst = document.querySelector('.js-modal-content')
+const buttonAdd = document.querySelector('.modalTwo__button')
+const modalAdd = document.querySelector('.modalTwo')
+const modalFirst = document.querySelector('.modal__content')
 const arrowLeft = document.querySelector('.fa-arrow-left')
 
 function displayAddModal() {
@@ -238,6 +264,8 @@ function displayAddModal() {
 
 }
 displayAddModal()
+
+
 
 //**prévisualisation de l'image**//
 
@@ -264,15 +292,21 @@ fileInput.addEventListener("change", () => {
     }
 })
 
+
+
 //***création de façon dynamique des categories dans l'input select***//
+
+let inputSelect;
+
 async function modalInputCategorys() {
-    const inputSelect = document.querySelector('.js-modal-add select')
     const categories = await getCategories()
+    inputSelect = document.querySelector('.modalTwo select')
     categories.forEach(categorie => {
         const option = document.createElement('option')
         option.value = categorie.id
         option.textContent = categorie.name
         inputSelect.appendChild(option)
+        inputSelect.value = "";
     });
 }
 
@@ -281,17 +315,39 @@ modalInputCategorys()
 
 
 
+const form = document.querySelector(".modalTwo form");
+
+// Écouter les changements sur les champs du formulaire
+
+form.addEventListener('change', () => {
+    // Récupération du bouton et des champs du formulaire
+    const buttonModalTwo = document.querySelector("#ModalTwo__button");
+    const title = document.querySelector(".modalTwo #title").value;
+    const categoryId = document.querySelector(".modalTwo #category").value;
+    const fileInput = document.querySelector(".modalTwo input[type='file']");
+    const file = fileInput.files[0]; // Vérifie si un fichier est sélectionné
+    console.log(title, categoryId, file);
+
+    // Vérifie si un des champs est vide
+    if (!title || !categoryId || !file) {
+        buttonModalTwo.style.backgroundColor = "gray";
+        buttonModalTwo.disabled = true; // Désactiver le bouton
+    } else {
+        buttonModalTwo.style.backgroundColor = "green";
+        buttonModalTwo.disabled = false; // Activer le bouton
+    }
+});
+
 
 //Ajouter un Projet partie a reviser
 
-const form = document.querySelector(".js-modal-add form");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const title = document.querySelector(".js-modal-add #title").value;
-    const categoryId = document.querySelector(".js-modal-add #category").value;
-    const fileInput = document.querySelector(".js-modal-add input[type='file']");
+    const title = document.querySelector(".modalTwo #title").value;
+    const categoryId = document.querySelector(".modalTwo #category").value;
+    const fileInput = document.querySelector(".modalTwo input[type='file']");
     const file = fileInput.files[0]; // Assure que nous obtenons le fichier sélectionné
 
     if (!title || !categoryId || !file) {
@@ -321,7 +377,6 @@ form.addEventListener("submit", async (e) => {
             alert("Erreur lors de l'ajout du projet : " + (error.message || response.statusText));
         } else {
             const result = await response.json();
-            console.log(result);
             alert("Projet ajouté avec succès !");
             form.reset(); // Réinitialise le formulaire après un ajout réussi
         }
@@ -329,6 +384,22 @@ form.addEventListener("submit", async (e) => {
         console.error("Erreur de requête :", error);
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
